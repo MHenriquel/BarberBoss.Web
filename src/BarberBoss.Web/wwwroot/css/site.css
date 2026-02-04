@@ -184,3 +184,36 @@
 .navbar-dark .brand:hover .brand-text {
     color: #e0e7ff; /* leve roxinho ao passar */
 }
+
+/* --- Submenu (2 níveis) para Bootstrap 5 --- */
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-left: .1rem;
+        margin-top: -0.35rem;
+        display: none;
+    }
+
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+
+    /* seta indicativa do submenu */
+    .dropdown-submenu > .dropdown-toggle::after {
+        float: right;
+        margin-top: .35rem;
+        transform: rotate(-90deg);
+    }
+
+/* melhora clique no mobile (hover não existe) */
+@media (max-width: 991px) {
+    .dropdown-submenu > .dropdown-menu {
+        left: 0;
+        margin-left: 0;
+        margin-top: 0.3rem;
+    }
+}
