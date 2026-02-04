@@ -1,0 +1,48 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11426.168 d18.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Domain", "src\BarberBoss.Domain\BarberBoss.Domain.csproj", "{D7145930-830C-43CD-A058-B1784ACA6D88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Application", "src\BarberBoss.Application\BarberBoss.Application.csproj", "{80224F23-C229-4C33-BD8B-9B84D88ADD07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Infrastructure", "src\BarberBoss.Infrastructure\BarberBoss.Infrastructure.csproj", "{5D1A5DCB-F7AC-40C6-8D95-77790BAFB19F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Client", "src\BarberBoss.Client\BarberBoss.Client.csproj", "{36D72BCB-1C59-4CC3-9E9A-D17E17149A7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarberBoss.Web", "src\BarberBoss.Web\BarberBoss.Web.csproj", "{F15E0987-9F2F-45CD-AC4E-0147787972C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7145930-830C-43CD-A058-B1784ACA6D88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7145930-830C-43CD-A058-B1784ACA6D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7145930-830C-43CD-A058-B1784ACA6D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7145930-830C-43CD-A058-B1784ACA6D88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80224F23-C229-4C33-BD8B-9B84D88ADD07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80224F23-C229-4C33-BD8B-9B84D88ADD07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80224F23-C229-4C33-BD8B-9B84D88ADD07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80224F23-C229-4C33-BD8B-9B84D88ADD07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D1A5DCB-F7AC-40C6-8D95-77790BAFB19F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D1A5DCB-F7AC-40C6-8D95-77790BAFB19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D1A5DCB-F7AC-40C6-8D95-77790BAFB19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D1A5DCB-F7AC-40C6-8D95-77790BAFB19F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D72BCB-1C59-4CC3-9E9A-D17E17149A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D72BCB-1C59-4CC3-9E9A-D17E17149A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D72BCB-1C59-4CC3-9E9A-D17E17149A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D72BCB-1C59-4CC3-9E9A-D17E17149A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15E0987-9F2F-45CD-AC4E-0147787972C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15E0987-9F2F-45CD-AC4E-0147787972C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15E0987-9F2F-45CD-AC4E-0147787972C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15E0987-9F2F-45CD-AC4E-0147787972C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {456A70FD-92DD-4681-9BB4-2DFF28B0FBA9}
+	EndGlobalSection
+EndGlobal

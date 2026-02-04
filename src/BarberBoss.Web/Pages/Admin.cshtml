@@ -1,0 +1,632 @@
+@* @page
+@model BarberBoss.Web.Pages.AdminModel
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h2>Admin (Barbearia)</h2>
+<p>Demo: endpoints estão em <code>/api</code>. Aqui você implementa telas de agenda, caixa, despesas e relatórios.</p>
+
+<div class="alert alert-info">
+    <strong>Dica:</strong> Comece criando Company/Branch/Barbers/Services via seed ou endpoints de cadastro.
+</div>
+ *@
+
+@page
+@model BarberBoss.Web.Pages.AdminModel
+@{
+    ViewData["Title"] = "Admin - Agenda";
+}
+
+<style>
+    /* Estilo “Outlook-like” */
+    /* .calendar-shell {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .calendar-header {
+        padding: 12px 14px;
+        border-bottom: 1px solid #eef2f7;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .calendar-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .dow {
+        background: #f8fafc;
+        padding: 10px 12px;
+        font-weight: 600;
+        font-size: 12px;
+        color: #334155;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .day-cell {
+        min-height: 110px;
+        padding: 10px 10px 12px;
+        border-right: 1px solid #eef2f7;
+        border-bottom: 1px solid #eef2f7;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .day-cell:nth-child(7n) {
+            border-right: none;
+        }
+
+    .day-number {
+        font-weight: 700;
+        font-size: 12px;
+        color: #0f172a;
+    }
+
+    .muted {
+        color: #94a3b8;
+    }
+
+    .today {
+        outline: 2px solid #2563eb;
+        outline-offset: -2px;
+        border-radius: 8px;
+    }
+
+    .selected {
+        background: #eff6ff;
+    }
+
+    .hoverable:hover {
+        background: #f8fafc;
+    }
+
+    .legend {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        background: #eef2ff;
+        color: #3730a3;
+    }
+ */
+    /* Painel lateral (lado direito) */
+   /*  .side-panel {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+    }
+
+    .side-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .slot-btn {
+        width: 100%;
+        text-align: left;
+    }
+ */
+    /* ===== Container do calendário ===== */
+    .calendar-shell {
+        background: #fff;
+        border: 1px solid #dbe3ef;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+
+    /* ===== Header destacado ===== */
+    .calendar-header {
+        padding: 14px 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(180deg, #0f172a, #111c33);
+        color: #fff;
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+
+        .calendar-header.sticky {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+    /* Badge do mês */
+    .pill {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        background: rgba(99, 102, 241, 0.18);
+        color: #e0e7ff;
+        border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+
+    /* Botões do header (mais visíveis) */
+    .calendar-header .btn-outline-secondary {
+        color: #e5e7eb;
+        border-color: rgba(255,255,255,0.22);
+        background: rgba(255,255,255,0.06);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.20);
+        border-radius: 12px;
+        font-weight: 800;
+    }
+
+        .calendar-header .btn-outline-secondary:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.30);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+    /* Label profissional */
+    .calendar-header .legend {
+        color: rgba(255,255,255,0.80);
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* Select do profissional */
+/*     .calendar-header .form-select {
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.20);
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    }
+
+        .calendar-header .form-select:focus {
+            border-color: rgba(99,102,241,0.65);
+            box-shadow: 0 0 0 0.22rem rgba(99, 102, 241, 0.28), 0 8px 18px rgba(0,0,0,0.18);
+        } */
+
+    .calendar-header .form-select {
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.20);
+        background: rgba(255,255,255,0.08);
+        color: #ffffff;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+        /* ✅ Faz o navegador desenhar o dropdown (lista) em tema escuro */
+        color-scheme: dark;
+    }
+
+        /* Fallback p/ navegadores que aceitam estilizar options */
+        .calendar-header .form-select option {
+            color: #e5e7eb; /* texto claro */
+            background: #0b1220; /* fundo escuro */
+        }
+
+        /* Quando estiver focado */
+        .calendar-header .form-select:focus {
+            border-color: rgba(99,102,241,0.65);
+            box-shadow: 0 0 0 0.22rem rgba(99, 102, 241, 0.28), 0 8px 18px rgba(0,0,0,0.18);
+        }
+
+
+    /* ===== ESSENCIAL: GRID do calendário ===== */
+    .calendar-grid {
+        display: grid !important;
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 0;
+    }
+
+    /* Dias da semana */
+    .dow {
+        background: #f1f5f9;
+        padding: 10px 12px;
+        font-weight: 900;
+        font-size: 12px;
+        color: #0f172a;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Células dos dias */
+    .day-cell {
+        min-height: 110px;
+        padding: 10px 10px 12px;
+        border-right: 1px solid #eef2f7;
+        border-bottom: 1px solid #eef2f7;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .day-cell:nth-child(7n) {
+            border-right: none;
+        }
+
+    .day-number {
+        font-weight: 900;
+        font-size: 12px;
+        color: #0f172a;
+    }
+
+    .muted {
+        color: #94a3b8;
+    }
+
+    .today {
+        outline: 2px solid #2563eb;
+        outline-offset: -2px;
+        border-radius: 8px;
+    }
+
+    .selected {
+        background: #eff6ff;
+    }
+
+    .hoverable:hover {
+        background: #f8fafc;
+    }
+
+    /* ===== PAINEL “HORÁRIOS DISPONÍVEIS” (destacado e estiloso) ===== */
+    .side-panel {
+        border-radius: 14px;
+        border: 1px solid rgba(99, 102, 241, 0.22);
+        /* Fundo diferente do calendário (gradiente elegante) */
+        background: radial-gradient(900px circle at 20% 0%, rgba(99, 102, 241, 0.22), transparent 48%), radial-gradient(700px circle at 90% 30%, rgba(59, 130, 246, 0.16), transparent 52%), linear-gradient(180deg, #0b1220, #0f172a);
+        color: #fff;
+        padding: 14px;
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.25), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    }
+    .side-title {
+        font-size: 14px;
+        font-weight: 900;
+        margin-bottom: 6px;
+        letter-spacing: 0.2px;
+    }
+
+    .side-subtitle {
+        font-size: 12px;
+        color: rgba(255,255,255,0.75);
+        margin-bottom: 12px;
+    }
+
+    /* área da lista de horários */
+    #slotsContainer {
+        margin-top: 10px;
+    }
+
+    /* Botões de horários (bonitos e legíveis no painel escuro) */
+    .slot-btn {
+        width: 100%;
+        text-align: left;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.06);
+        color: #e5e7eb;
+        padding: 10px 12px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+        transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+        .slot-btn:hover {
+            background: rgba(255,255,255,0.10);
+            border-color: rgba(99,102,241,0.38);
+            transform: translateY(-1px);
+            color: #fff;
+        }
+
+    /* “chip” de horário dentro do botão (opcional) */
+    .slot-time {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .slot-time::before {
+            content: "⏱️";
+            opacity: .9;
+        }
+
+    /* Mensagem “sem horários” coerente com painel escuro */
+    .side-empty {
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px dashed rgba(255,255,255,0.18);
+        color: rgba(255,255,255,0.75);
+        background: rgba(255,255,255,0.04);
+    }
+</style>
+
+<div class="row g-3">
+    <div class="col-12 col-lg-9">
+        <div class="calendar-shell">
+            <div class="calendar-header sticky">
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" id="btnPrev" type="button">◀</button>
+                    <button class="btn btn-outline-secondary btn-sm" id="btnToday" type="button">Hoje</button>
+                    <button class="btn btn-outline-secondary btn-sm" id="btnNext" type="button">▶</button>
+                    <span class="ms-2 pill" id="monthLabel">—</span>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <label class="legend mb-0">Profissional</label>
+                    <select id="barberSelect" class="form-select form-select-sm" style="min-width: 260px;">
+                        <option value="">Carregando...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calendar-grid" id="dowRow">
+                <div class="dow">Dom</div>
+                <div class="dow">Seg</div>
+                <div class="dow">Ter</div>
+                <div class="dow">Qua</div>
+                <div class="dow">Qui</div>
+                <div class="dow">Sex</div>
+                <div class="dow">Sáb</div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- JS gera as células -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3">
+       @*  <div class="side-panel">
+            <div class="side-title">Horários disponíveis</div>
+            <div class="legend mb-2" id="selectedInfo">Selecione um dia no calendário…</div>
+            <div id="slotsContainer" class="d-grid gap-2"></div>
+        </div> *@
+        <div class="side-panel sticky">
+            <div class="side-title">Horários disponíveis</div>
+            <div class="side-subtitle" id="selectedInfo">Selecione um dia no calendário…</div>
+            <div id="slotsContainer" class="d-grid gap-2"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal (estilo Outlook) para mostrar slots -->
+<div class="modal fade" id="slotsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="slotsModalTitle">Horários</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="slotsModalBody" class="d-grid gap-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // IDs vindos do backend (para demo pode passar via querystring /Admin?companyId=...&branchId=...)
+        const COMPANY_ID = "@Model.CompanyId";
+        const BRANCH_ID = "@Model.BranchId";
+
+        const monthLabel = document.getElementById('monthLabel');
+        const grid = document.getElementById('calendarGrid');
+        const barberSelect = document.getElementById('barberSelect');
+        const selectedInfo = document.getElementById('selectedInfo');
+        const slotsContainer = document.getElementById('slotsContainer');
+
+        const modalEl = document.getElementById('slotsModal');
+        const modal = new bootstrap.Modal(modalEl);
+        const modalTitle = document.getElementById('slotsModalTitle');
+        const modalBody = document.getElementById('slotsModalBody');
+
+        let cursor = new Date(); // mês atual
+        cursor.setDate(1);
+
+        function fmtMonthYear(d) {
+            return d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+                .replace(/(^\\w)/, m => m.toUpperCase());
+        }
+
+        function toYmd(d) {
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth()+1).padStart(2,'0');
+            const dd = String(d.getDate()).padStart(2,'0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('.day-cell').forEach(c => c.classList.remove('selected'));
+        }
+
+        function renderCalendar() {
+            grid.innerHTML = '';
+            monthLabel.textContent = fmtMonthYear(cursor);
+
+            const firstDay = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+            const startWeekday = firstDay.getDay(); // 0=Dom..6=Sáb
+
+            // total days in month
+            const lastDay = new Date(cursor.getFullYear(), cursor.getMonth()+1, 0);
+            const daysInMonth = lastDay.getDate();
+
+            // Preenche “dias vazios” antes do 1º
+            for (let i=0; i<startWeekday; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell muted';
+                cell.innerHTML = `<div class="day-number muted"> </div>`;
+                grid.appendChild(cell);
+            }
+
+            const today = new Date();
+            for (let day=1; day<=daysInMonth; day++) {
+                const date = new Date(cursor.getFullYear(), cursor.getMonth(), day);
+                const cell = document.createElement('div');
+                cell.className = 'day-cell hoverable';
+                cell.dataset.date = toYmd(date);
+                cell.innerHTML = `<div class="day-number">${day}</div>`;
+
+                // hoje
+                if (date.toDateString() === today.toDateString()) cell.classList.add('today');
+
+                cell.addEventListener('click', async () => {
+                    clearSelection();
+                    cell.classList.add('selected');
+                    await loadAvailability(cell.dataset.date);
+                });
+
+                grid.appendChild(cell);
+            }
+
+            // Completa o grid até fechar a semana (opcional)
+            const totalCells = startWeekday + daysInMonth;
+            const remainder = totalCells % 7;
+            const fill = remainder === 0 ? 0 : (7 - remainder);
+            for (let i=0; i<fill; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell muted';
+                cell.innerHTML = `<div class="day-number muted"> </div>`;
+                grid.appendChild(cell);
+            }
+        }
+
+        async function loadBarbers() {
+            // Se não tiver Company/Branch na querystring, a API vai falhar.
+            // Recomendo definir isso por login/tenant. Por enquanto, via querystring.
+            // // if (!COMPANY_ID || COMPANY_ID === "00000000-0000-0000-0000-000000000000" ||
+            // //     !BRANCH_ID || BRANCH_ID === "00000000-0000-0000-0000-000000000000") {
+            // //     barberSelect.innerHTML = `<option value="">Defina companyId e branchId na URL (/Admin?companyId=...&branchId=...)</option>`;
+            // //     barberSelect.disabled = true;
+            // //     return;
+            // // }
+
+            // const url = `/api/barbers?companyId=${COMPANY_ID}&branchId=${BRANCH_ID}`;
+            const url = `/api/barbers?companyId=${'9eaabccd-7ce2-4abd-b6c2-e84c77e21a9b'}&branchId=${'2872f5c5-b35e-44b5-9b7e-7bf8eaea710c'}`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            barberSelect.innerHTML = `<option value="">Selecione...</option>` +
+                data.map(b => `<option value="${b.id}">${b.fullName}</option>`).join('');
+
+            barberSelect.disabled = false;
+        }
+
+        async function loadAvailability(ymd) {
+            const barberId = barberSelect.value;
+            if (!barberId) {
+                selectedInfo.textContent = `Selecione um profissional antes de ver horários (${ymd}).`;
+                slotsContainer.innerHTML = '';
+                return;
+            }
+
+            selectedInfo.textContent = `Carregando horários: ${ymd}...`;
+            slotsContainer.innerHTML = '';
+
+            const url = `/api/availability?companyId=${'9eaabccd-7ce2-4abd-b6c2-e84c77e21a9b'}&branchId=${'2872f5c5-b35e-44b5-9b7e-7bf8eaea710c'}&barberId=${'ce63a23f-33c9-44c5-b35b-3cc87270f6d7'}&date=${ymd}`;
+            const res = await fetch(url);
+            if (!res.ok) {
+                selectedInfo.textContent = `Erro ao carregar horários (${ymd}).`;
+                return;
+            }
+            debugger;
+            const payload = await res.json();
+            const slots = payload.slots || [];
+
+            const barberName = barberSelect.options[barberSelect.selectedIndex]?.text ?? '';
+            selectedInfo.textContent = `${ymd} — ${barberName}`;
+
+
+            console.log("payload", payload);
+            console.log("slots[0]", payload.slots?.[0]);
+
+
+            // Preenche o painel lateral
+            if (slots.length === 0) {
+                // slotsContainer.innerHTML = `<div class="text-muted">Sem horários disponíveis.</div>`;
+                slotsContainer.innerHTML = `<div class="side-empty">Sem horários disponíveis.</div>`;
+            } else {
+                // slotsContainer.innerHTML = slots.map(s => `
+                //     <button class="btn btn-outline-primary btn-sm slot-btn" type="button" onclick="openSlotsModal('${ymd}', '${barberName}', '${s.time}')">
+                //         ${s.time}
+                //     </button>
+                // `).join('');
+
+                slotsContainer.innerHTML = slots.map(s => {
+                      const time = (typeof s === "string")
+                        ? s
+                        : (s.time ?? s.Time); // suporta camelCase e PascalCase
+
+                      return `
+                        <button class="slot-btn"
+                                type="button"
+                                onclick="openSlotsModal('${ymd}', '${barberName}', '${time}')">
+                            ${time}
+                        </button>
+                      `;
+                  }).join('');
+
+            }
+        }
+
+        // Abre modal e lista os slots (pode evoluir para iniciar o agendamento)
+        window.openSlotsModal = (ymd, barberName, selectedTime) => {
+            modalTitle.textContent = `Horários — ${ymd} (${barberName})`;
+
+            // Aqui mostramos apenas o horário clicado como “selecionado”.
+            // Você pode melhorar para listar todos e permitir escolher.
+            modalBody.innerHTML = `
+                <div class="alert alert-info">
+                    <strong>Horário selecionado :</strong> ${selectedTime}<br/>
+                    <small>Próximo passo: abrir fluxo de agendamento (serviço, cliente, pagamento Pix/Cartão).</small>
+                </div>
+                <button class="btn btn-primary" type="button" onclick="alert('Aqui você chama /api/appointments com o horário e serviços selecionados.')">
+                    Prosseguir para agendar
+                </button>
+            `;
+            modal.show();
+        };
+
+        document.getElementById('btnPrev').addEventListener('click', () => {
+            cursor = new Date(cursor.getFullYear(), cursor.getMonth()-1, 1);
+            renderCalendar();
+        });
+
+        document.getElementById('btnNext').addEventListener('click', () => {
+            cursor = new Date(cursor.getFullYear(), cursor.getMonth()+1, 1);
+            renderCalendar();
+        });
+
+        document.getElementById('btnToday').addEventListener('click', () => {
+            const now = new Date();
+            cursor = new Date(now.getFullYear(), now.getMonth(), 1);
+            renderCalendar();
+        });
+
+        barberSelect.addEventListener('change', () => {
+            // ao trocar profissional, limpa slots e seleção
+            selectedInfo.textContent = `Selecione um dia no calendário…`;
+            slotsContainer.innerHTML = '';
+            clearSelection();
+        });
+
+        // init
+        renderCalendar();
+        loadBarbers();
+    </script>
+}
